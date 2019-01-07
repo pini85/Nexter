@@ -1,0 +1,50 @@
+.features {
+  grid-column: center-start / center-end;
+  display: grid;
+  margin: 15rem 0;
+  grid-gap: 6rem;
+  align-items: start;
+  /* As default the align-items are set to stretch. The problem here was that the heading-4 some had a bigger stretch which produces the
+  text with a bigger gap with the other texts. So we set all of the elements to start so we fix that.
+  We won't put this align items to the feautres because then it will prodiuce a gap in the text because some text only has 3 lines others
+  have 4 lines so there will be a gap.
+  */
+
+
+  //grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  /* we want the feature items to collapse to another row when the view port decreases. We need auto-fit to make them go to another row.
+  We specify that the minumum of each item will be 25rem and maximum will be 1fr.
+  */
+
+  @media only screen and (max-width: $sm) {
+    margin: 8rem;
+  }
+
+
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  // we dont need to define the rows because we want the rows to be the size of their content. Which automatically happens.
+  //This happens a lot that we dont define the rows. We want the content to define the rows.
+  grid-row-gap: 1.5rem;
+  grid-column-gap: 2.5rem;
+
+
+  &__icon {
+    fill: $color-primary;
+    width: 4.5rem;
+    height: 4.5rem;
+    grid-row: 1 / span 2;
+    /*because we didnt define the 2nd row we had the text underneath the icon set to the 3rd grid area which the grid algrothim does
+    automatically. So setting the icon all the way to the 2nd row makes the text go to the next area which is underneath the heading 4.
+    And since the 2nd row is an implicit row we cannot set it to 1/ -1. Only explicit rows can do that.
+     */
+     transform: translateY(-1rem);
+
+  }
+
+  &__text { font-size: 1.7rem; }
+}

@@ -1,0 +1,94 @@
+// COLOR VARIABLES
+$color-primary: #c69963;
+$color-primary-dark: #B28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483A;
+$color-grey-dark-2: #6D5D4B;
+
+// FONT VARIABLES
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+//Simple media query variables breakpoints
+
+$lgx: 75em; // 1200px
+$lg: 62.5em;//1000px
+$md: 50em;//900px
+$sm: 37.5em; //600px
+
+
+
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;// 10/16px = 62,5
+
+  @media only screen and (max-width: $lgx) {
+    font-size: 50%;
+  }
+
+  @media only screen and (max-width: $sm) {
+    font-size: 40%;
+  }
+}
+
+body {
+  font-family: $font-primary;
+  color: $color-grey-dark-2;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+  /* min-content: We want the 2nd row to have enough space for the items. Even if we shink it, the page will adapt to fit everything in.
+  We want the row to adapt to the content.
+  40vw: We are not using vh here because we want the 2 boxes that we will have to decrease in size once we decrease the view width. If
+  we used vh their height will be fixed and will not change. Now their height will change thus making the boxes decrease in size */
+  grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start]
+  minmax(min-content, 14rem) [col-end] ) [center-end] minmax(6rem, 1fr)[full-end];
+  /* 8rem: This is for the sidebar
+    repeat(8, minmax(min-content, 14rem): we want 8 main columns that are responsive. That they will adapt to the viewport and to do this
+    we need to define also a minmax min content. So it will be by defualt 140px but once you decrease the viewport the content will be
+    visible. always when you do a fixed height or width if the viewport is smaller it will simply overflow.
+    Now we want these 8 columns to be in the center. We cannot do margin 0 trick here anymore because we have the side bar so we will do
+    is the following:
+    put 1fr in between. Now there is a gap between the 8 columns that both fr will be adaptive. If we decrease the viewport, the 1fr will
+    be the first one to decrease because we defined it as the remaining fraction space(the remaning space) So it will adapt first.
+    Also one reason we do it like this is because some sections will have a "full bleed section" which means that it will occoupy the 1fr.
+    This is modern practice with websites today.
+    But we always want a gap between the end of the grid which is sidebar and full end so if you collapse the viewport the 1fr will slowly
+    get smaller and eventually it will touch the side bar but we want for example the features to always have a margin between its content.
+    So we use the minmax function for the 1fr saying that the minimum will always be 6rem.
+  */
+
+  @media only screen and (max-width: $lg) {
+    /*We need want to put the side bar horizontally on top of the page. we simply delete the sidebar column and and a new row for
+    the side bar*/
+    grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content);
+    grid-template-columns:[full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start]
+    minmax(min-content, 14rem) [col-end] ) [center-end] minmax(6rem, 1fr)[full-end];
+  }
+
+     @media only screen and (max-width: $md) {
+      /* We want the realtors above the header spanning the whole width and make the header span all the wy to the end. We had a new
+      row min-content*/
+      grid-template-rows: 6rem calc(100vh - 6rem) //min-content min-content 40vw repeat(3, min-content);
+      /* We do not need to define the min-content because it will become an implicit grid therefore min-content will apply to them.
+      100vh for the header included the side bar which is 6rem into consideration so it was 100vh + the sidebar. So we used calc*/
+    }
+  }

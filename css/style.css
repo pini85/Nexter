@@ -1,0 +1,510 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 50%; } }
+  @media only screen and (max-width: 37.5em) {
+    html {
+      font-size: 40%; } }
+
+body {
+  font-family: "Nunito", sans-serif;
+  color: #6D5D4B;
+  font-weight: 300;
+  line-height: 1.6; }
+
+.container {
+  display: grid;
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+  /* min-content: We want the 2nd row to have enough space for the items. Even if we shink it, the page will adapt to fit everything in.
+  We want the row to adapt to the content.
+  40vw: We are not using vh here because we want the 2 boxes that we will have to decrease in size once we decrease the view width. If
+  we used vh their height will be fixed and will not change. Now their height will change thus making the boxes decrease in size */
+  grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end];
+  /* 8rem: This is for the sidebar
+    repeat(8, minmax(min-content, 14rem): we want 8 main columns that are responsive. That they will adapt to the viewport and to do this
+    we need to define also a minmax min content. So it will be by defualt 140px but once you decrease the viewport the content will be
+    visible. always when you do a fixed height or width if the viewport is smaller it will simply overflow.
+    Now we want these 8 columns to be in the center. We cannot do margin 0 trick here anymore because we have the side bar so we will do
+    is the following:
+    put 1fr in between. Now there is a gap between the 8 columns that both fr will be adaptive. If we decrease the viewport, the 1fr will
+    be the first one to decrease because we defined it as the remaining fraction space(the remaning space) So it will adapt first.
+    Also one reason we do it like this is because some sections will have a "full bleed section" which means that it will occoupy the 1fr.
+    This is modern practice with websites today.
+    But we always want a gap between the end of the grid which is sidebar and full end so if you collapse the viewport the 1fr will slowly
+    get smaller and eventually it will touch the side bar but we want for example the features to always have a margin between its content.
+    So we use the minmax function for the 1fr saying that the minimum will always be 6rem.
+  */ }
+  @media only screen and (max-width: 62.5em) {
+    .container {
+      /*We need want to put the side bar horizontally on top of the page. we simply delete the sidebar column and and a new row for
+    the side bar*/
+      grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content);
+      grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end]; } }
+  @media only screen and (max-width: 50em) {
+    .container {
+      /* We want the realtors above the header spanning the whole width and make the header span all the wy to the end. We had a new
+      row min-content*/
+      grid-template-rows: 6rem calc(100vh - 6rem); } }
+
+.heading-1, .heading-2, .heading-3, .heading-4 {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 400; }
+
+.heading-1 {
+  font-size: 4.5rem;
+  color: #f9f7f6;
+  line-height: 1; }
+
+.heading-2 {
+  font-size: 4rem;
+  font-style: italic;
+  line-height: 1; }
+  .heading-2--light {
+    color: #f9f7f6; }
+  .heading-2--dark {
+    color: #54483A; }
+
+.heading-3 {
+  font-size: 1.6rem;
+  color: #c69963;
+  text-transform: uppercase; }
+
+.heading-4 {
+  font-size: 1.9rem; }
+  .heading-4--light {
+    color: #f9f7f6; }
+  .heading-4--dark {
+    color: #54483A; }
+
+.btn {
+  background-color: #c69963;
+  color: #fff;
+  padding: 1.8rem 3rem;
+  border: none;
+  border-radius: 0;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s; }
+  .btn:hover {
+    background-color: #B28451; }
+  .btn:focus {
+    outline: none; }
+
+.mb-sm {
+  margin-bottom: 2rem; }
+
+.mb-md {
+  margin-bottom: 3rem; }
+
+.mb-lg {
+  margin-bottom: 4rem; }
+
+.mb-hg {
+  margin-bottom: 8rem; }
+
+.sidebar {
+  background-color: #c69963;
+  grid-row: 1 / -1;
+  grid-column: sidebar-start / sidebar-end;
+  display: flex;
+  justify-content: center; }
+  @media only screen and (max-width: 62.5em) {
+    .sidebar {
+      grid-row: 1 / 2;
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+      align-items: center; } }
+
+.nav-btn {
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+  height: 2px;
+  width: 4.5rem;
+  margin-top: 4rem; }
+  .nav-btn::before, .nav-btn::after {
+    background-color: #fff;
+    height: 2px;
+    width: 4.5rem;
+    content: "";
+    display: block; }
+  .nav-btn::before {
+    transform: translateY(-1.5rem); }
+  .nav-btn::after {
+    transform: translateY(1.3rem); }
+  .nav-btn:focus {
+    outline: none; }
+  @media only screen and (max-width: 62.5em) {
+    .nav-btn {
+      margin-top: 0rem;
+      margin-right: 3rem; }
+      .nav-btn::before {
+        transform: translateY(-1.2rem); }
+      .nav-btn::after {
+        transform: translateY(1rem); } }
+
+.header {
+  background-color: #54483A;
+  background-image: linear-gradient(rgba(16, 29, 44, 0.93), rgba(16, 29, 44, 0.93)), url(../img/hero.jpeg);
+  background-size: cover;
+  background-position: center;
+  padding: 8rem;
+  padding-top: 4rem;
+  grid-column: full-start / col-end 6;
+  display: grid;
+  /*
+  We do not need to play with margins. We can play wirh css grid to position them as we please with gaps:
+  1fr:
+  Because we only defined one row, the rest of the other elements will become a implicit grid which they will only take their
+  available space. Therefore the first row as we defined as a 1fr will be a huge row.
+  6rem:
+  We also want the 3rd element to have a bigger gap between the 3rd and 4th element.(header/btn) so we set it to 6rem
+  min-content:
+  When are going responsive the problem was the header had fixed pixels therefore when we put the screen smaller it was breaking the rows
+  height. So if we put min-content that means it will always display the header with its row perfectly.
+  1fr:
+  We want a huge space between the button and the seen on so we set it to 1fr*/
+  grid-template-rows: 1fr min-content minmax(6rem, min-content) 1fr;
+  grid-template-columns: minmax(min-content, max-content);
+  /* Max-content:
+  We want everything to be in the center of the content so we use max-content. The biggest element is the header so everything is
+  centered with that element.
+  Min-content: We had a problem for responsivness for img. We fixed the problem so it wont have a fix width and height below but since
+  we used only max-content it is always the max-height and max-width so we set another argument which is min-content. So now it works*/
+  grid-row-gap: 1.5rem;
+  justify-content: center; }
+  @media only screen and (max-width: 50em) {
+    .header {
+      grid-column: 1 / -1; } }
+  @media only screen and (max-width: 37.5em) {
+    .header {
+      padding: 5rem; } }
+  .header__logo {
+    height: 3rem;
+    justify-self: center; }
+  .header__btn {
+    align-self: start;
+    justify-self: start; }
+  .header__seenon-text {
+    display: grid;
+    font-size: 1.6rem;
+    color: #aaa;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-column-gap: 1.5rem;
+    align-items: center; }
+    .header__seenon-text::after, .header__seenon-text::before {
+      content: "";
+      display: block;
+      height: 1px;
+      background-color: currentColor; }
+  .header__seenon-logo {
+    /*We can have used flex box to align these items but then we had to play with margin right. Grid is simplier for they have the gap
+    function.*/
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    align-items: center;
+    grid-column-gap: 3rem; }
+    .header__seenon-logo img {
+      height: 2.5rem;
+      filter: brightness(70%);
+      /* When we finished the project and wanted to be responsive the header was overlapping the conatiner because the images were
+    overlapping because we set a fixed width to them so we change this as follows:*/
+      max-height: 2.5rem;
+      max-width: 100%;
+      /*So we are saying the maxium it will be 2.5rem but it can be smaller. To make this work we need to set a height as well.*/ }
+
+.realtors {
+  background-color: #101d2c;
+  grid-column: col-start 7 / full-end;
+  padding: 3rem;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  grid-row-gap: 2rem; }
+  @media only screen and (max-width: 50em) {
+    .realtors {
+      grid-column: 1 / -1; } }
+  @media only screen and (max-width: 37.5em) {
+    .realtors {
+      padding: 5rem; } }
+  .realtors__list {
+    display: grid;
+    grid-template-columns: min-content max-content;
+    grid-column-gap: 2rem;
+    grid-row-gap: 5vh;
+    align-items: center; }
+    @media only screen and (max-width: 50em) {
+      .realtors__list {
+        /* We want the realtors to be side by side. So min-content is the image and max-content is the text and we want it 3 times for each
+      picture.*/
+        grid-template-columns: repeat(3, min-content max-content); } }
+    @media only screen and (max-width: 37.5em) {
+      .realtors__list {
+        grid-template-columns: min-content max-content; } }
+  .realtors__img {
+    width: 7rem;
+    border-radius: 50%;
+    display: block; }
+  .realtors__sold {
+    text-transform: uppercase;
+    color: #aaa;
+    margin-top: -3px; }
+
+.features {
+  grid-column: center-start / center-end;
+  display: grid;
+  margin: 15rem 0;
+  grid-gap: 6rem;
+  align-items: start;
+  /* As default the align-items are set to stretch. The problem here was that the heading-4 some had a bigger stretch which produces the
+  text with a bigger gap with the other texts. So we set all of the elements to start so we fix that.
+  We won't put this align items to the feautres because then it will prodiuce a gap in the text because some text only has 3 lines others
+  have 4 lines so there will be a gap.
+  */
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  /* we want the feature items to collapse to another row when the view port decreases. We need auto-fit to make them go to another row.
+  We specify that the minumum of each item will be 25rem and maximum will be 1fr.
+  */ }
+  @media only screen and (max-width: 37.5em) {
+    .features {
+      margin: 8rem; } }
+
+.feature {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-row-gap: 1.5rem;
+  grid-column-gap: 2.5rem; }
+  .feature__icon {
+    fill: #c69963;
+    width: 4.5rem;
+    height: 4.5rem;
+    grid-row: 1 / span 2;
+    /*because we didnt define the 2nd row we had the text underneath the icon set to the 3rd grid area which the grid algrothim does
+    automatically. So setting the icon all the way to the 2nd row makes the text go to the next area which is underneath the heading 4.
+    And since the 2nd row is an implicit row we cannot set it to 1/ -1. Only explicit rows can do that.
+     */
+    transform: translateY(-1rem); }
+  .feature__text {
+    font-size: 1.7rem; }
+
+.story__pictures {
+  background-image: linear-gradient(rgba(198, 153, 99, 0.5), rgba(198, 153, 99, 0.5)), url(../img/back.jpg);
+  background-color: #c69963;
+  grid-column: full-start / col-end 4;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  background-size: cover;
+  align-items: center;
+  /* We want to center the image in the grid container but it wasn't centered exactly because it was smaller than the grid.
+     so align-items made it centered
+     The image was smaller because images are dimensions and trhey have aspect ratios which they try to  retain at all times.*/ }
+  @media only screen and (max-width: 50em) {
+    .story__pictures {
+      grid-column: 1 / -1;
+      padding: 6rem; } }
+
+.story__img-1 {
+  width: 100%;
+  grid-row: 2 / 6;
+  grid-column: 2 / 6;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.1); }
+  @media only screen and (max-width: 50em) {
+    .story__img-1 {
+      grid-column: 1 / 5;
+      grid-row: 1 / -1; } }
+
+.story__img-2 {
+  width: 115%;
+  grid-row: 4 / 6;
+  grid-column: 4 / 7;
+  z-index: 2;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2); }
+  @media only screen and (max-width: 50em) {
+    .story__img-2 {
+      grid-row: 1 / -1;
+      width: 100%; } }
+
+.story__content {
+  /* You need to know when to use css grid and when to use flex-box. This is a 1 dimensional layout therefore flex-box is the
+    best solution.*/
+  background-color: #f9f7f6;
+  grid-column: col-start 5 / full-end;
+  padding: 6rem 8vw;
+  /* Viewport width unit is getting more and more used for bilding truly responsive layouts. We had hard coding 10rem for the width
+    and when we decrease the size the padding got larger which we dont want. Viewport width fixed that.*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  /*display: grid;
+    align-content: center;
+    justify-items: start; //We are making the button to its original size. It was by default stretch.*/ }
+  @media only screen and (max-width: 50em) {
+    .story__content {
+      grid-column: 1 / -1;
+      grid-row: 5 / 6; } }
+
+.story__text {
+  font-size: 1.5rem;
+  font-style: italic; }
+
+.homes {
+  grid-column: center-start / center-end;
+  display: grid;
+  margin: 15rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-gap: 7rem; }
+  @media only screen and (max-width: 37.5em) {
+    .homes {
+      margin: 8rem 0; } }
+
+.home {
+  background-color: #f9f7f6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 3.5rem; }
+  .home__img {
+    width: 100%;
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    z-index: 1; }
+  .home__like {
+    fill: #c69963;
+    height: 2.5rem;
+    width: 2.5rem;
+    grid-row: 1/ 2;
+    grid-column: 2 / 3;
+    justify-self: end;
+    margin: 1rem;
+    z-index: 2; }
+  .home__name {
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    z-index: 3;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.6rem;
+    text-align: center;
+    padding: 1.25rem;
+    background-color: #101d2c;
+    color: #fff;
+    font-weight: 400;
+    width: 80%;
+    align-self: end;
+    justify-self: center;
+    transform: translateY(50%); }
+  .home__location, .home__rooms {
+    margin-top: 2.5rem; }
+  .home__location, .home__rooms, .home__area, .home__price {
+    font-size: 1.6rem;
+    margin-left: 2rem;
+    /*We want to align the svg and text together. Best way is flexbox. Just write display:flex and thats it*/
+    display: flex;
+    align-items: center; }
+    .home__location svg, .home__rooms svg, .home__area svg, .home__price svg {
+      fill: #c69963;
+      height: 2rem;
+      width: 2rem;
+      margin-right: 1rem; }
+  .home__btn {
+    grid-column: 1 / -1; }
+
+.gallery {
+  grid-column: full-start / full-end;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(7, 5vw);
+  /*We set the row to 5vw because once we minimize the viewport it still stays the same width of 5%.*/
+  grid-gap: 1.5rem;
+  padding: 1.5rem; }
+  .gallery__item--1 {
+    grid-row: 1 / span 2;
+    grid-column: 1 / span 2; }
+  .gallery__item--2 {
+    grid-row: 1 / span 3;
+    grid-column: 3 / span 3; }
+  .gallery__item--3 {
+    grid-row: 1 / span 2;
+    grid-column: 6 / span 1; }
+  .gallery__item--4 {
+    grid-row: 1 / span 2;
+    grid-column: 7 / -1; }
+  .gallery__item--5 {
+    grid-row: 3 / span 3;
+    grid-column: 1/ span 2; }
+  .gallery__item--6 {
+    grid-row: 4 / span 2;
+    grid-column: 3 / span 2; }
+  .gallery__item--7 {
+    grid-row: 4 / span 1;
+    grid-column: 5 / span 1; }
+  .gallery__item--8 {
+    grid-row: 3 / span 2;
+    grid-column: 6/ span 2; }
+  .gallery__item--9 {
+    grid-row: 3 / span 3;
+    grid-column: 8 / -1; }
+  .gallery__item--10 {
+    grid-row: 6 / span 2;
+    grid-column: 1 / span 1; }
+  .gallery__item--11 {
+    grid-row: 6 / span 2;
+    grid-column: 2 / span 2; }
+  .gallery__item--12 {
+    grid-row: 6 / span 2;
+    grid-column: 4 / span 1; }
+  .gallery__item--13 {
+    grid-row: 5 / span 3;
+    grid-column: 5 / span 3; }
+  .gallery__item--14 {
+    grid-row: 6 / span 2;
+    grid-column: 8 / -1; }
+  .gallery__img {
+    object-fit: cover;
+    /* The problem is that images keep their aspect ratio so all images wont be placed perfectly to their grid area. To solve this we need
+the image to be placed in a parent element(figure) so we can set the property object fill to the image to the parent element.
+We are basically saying that the parent element is the whole grid area and we set the image to background-size cover.
+We could of not included a figure element or parent element at all because the grid area is the parent but if we wanted to put captions
+inside the image then we would need a figure element. so this is basically future proof.
+If we did not have object fir the images wouldn't keep their aspect ratio and some pictures will look stretched.*/
+    width: 100%;
+    height: 100%;
+    display: block; }
+
+.footer {
+  background-color: #101d2c;
+  grid-column: full-start / full-end;
+  padding: 5rem; }
+
+.nav {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-gap: 2rem;
+  align-items: center;
+  justify-items: center; }
+  .nav__link:link, .nav__link:visited {
+    font-size: 1.4rem;
+    text-decoration: none;
+    color: #fff;
+    font-family: "Josefin Sans", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1.5rem;
+    display: block;
+    transition: all .2s; }
+  .nav__link:hover, .nav__link:active {
+    transform: scale(1.1) translateY(-3px); }
